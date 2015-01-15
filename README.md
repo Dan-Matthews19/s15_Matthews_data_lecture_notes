@@ -52,17 +52,17 @@ Web browser uses the domain name to figure out which server to contact.
 
   ex. wwww.something.com/product/10
   
-*GET
-*POST
-*DELETE
-*PUT 
+* GET
+* POST
+* DELETE
+* PUT 
 
 Above are the types of requests (GET and POST most common)
 
 Lots of things can be embeded in html files that call for additional requests after hitting enter in URL
-  *images
-  *scripts
-  *href links
+  * images
+  * scripts
+  * href links
   
 How to write a service that can accept and assemble JSON and how to write an client side app that accepts JSON
 
@@ -72,16 +72,16 @@ RESTful:
   
 URI -- Resources
   URL -> CRUD
-  *C: create
-  *R: read
-  *U: update
-  *D: destroy
+  * C: create
+  * R: read
+  * U: update
+  * D: destroy
 
 EX: /users (URI that delivers a set of Data)
-  *GET -- Read
-  *POST -- Create
-  *PUT -- Update (PUT on a particular User ID)
-  *DELETE -- Destroy
+  * GET -- Read
+  * POST -- Create
+  * PUT -- Update (PUT on a particular User ID)
+  * DELETE -- Destroy
   
 Example of a Request Response cycle
 
