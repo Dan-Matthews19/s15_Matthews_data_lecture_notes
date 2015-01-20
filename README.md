@@ -100,3 +100,108 @@ configure do
   ....
   
 ```
+
+-----
+#Lecture 3
+##January, 20 2013
+
+###Restful Web Services
+
+  * REST is an approach to developing web services taht mimics the design of the Web itself
+  * REST is an architectural style for webservices
+  * * invented by Roy Fielding at UC Irvine
+  * Your service provides access to a linked set of resources
+  * For each resource, you can perform operations on it similar to the main operations (a.k.a. methods) of the HTTP specification.
+
+CRUD (REST HTTP methods)
+  * POST - CREATE a resource
+  * GET - READ a resource
+  * PUT - UPDATE a resource
+  * DELETE - DELETE a resource
+
+Examples:
+```
+GET /api/1.0/users
+
+```
+retrieve a list of all users
+
+```
+GET /api/1.0/users/0
+```
+Retrieve the detales of User 0
+
+```
+POST /api/1.0/users
+```
+Create a new user
+
+```
+PUT /api/1.0/users/0
+
+```
+Update User 0
+
+```
+DELETE /api/1.0/users/0
+```
+Delete user 0
+
+```
+GET /api/1.0/search?q=tattersail
+```
+
+Perform a search with the query tattersail
+
+Discusion(1):
+* Each operation may produce a result
+* * With RESTful services, JSON formatting is king
+* POST and PUT methods typically send data
+  * Also in Json Format
+  * May be in the URL or in the body of the HTTP request
+    * For GET, the data may appear as query params
+* Other formats are possiible: HTML, XML are typical
+* Request needs to be authenticated
+  * The authentication data appears in HTTP headers
+
+Discussion(2):
+
+How do you think operations on two resources are handled?
+
+One approach
+```
+GET /api/1.0/posts/0/comments/1
+```
+* Get the first comment on post 0.
+```
+POST /api/posts/0/comments
+```
+* Create a new comment on post 0
+
+Alternative Approach
+* While performing an operation on one resource, you reference other resources by ID
+
+ISSUES
+* Security: How do you authenticate users? (who can do what)
+* Identity: How are ID's assigned to resources?
+* Failure: How do we handle failure situartions?
+  * In the example today, I handle it in the JSON
+  * I could have used HTTP Status codes (404, 500, etc)
+  * Most services will use a combination of both.
+* Persistence: How are resources stored?
+
+EXAMPLE
+* Contacts Web Service
+* Implemented in both Ruby and JS
+* Technologies used
+  * Sinatra - handles HTTP Request (web service framework)
+  * Rspec - Testing framework, uses behavioral testing, if something fails, you get back a natural language description of what went wrong.
+  * Typhoeus - lib curl wrapper
+  * Node - a wrapper around the Chrom JS Engine to execute JS on the server side
+  * Express - Framework for node
+
+
+
+
+  
+
