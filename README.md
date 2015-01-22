@@ -201,7 +201,123 @@ EXAMPLE
   * Express - Framework for node
 
 
+#Lecture 4, 1/22/15
+##Git Version Control System- Open Source
 
+Workflow
+* Untracked
+  * Theses are not yet in the repo
+  * add or gitignore
+* initialize repo
+* add existing items to the repo
+* .....
+Workflow with remote
+* Clone the previously existing
+* pull merge pull then finally push
+* rinse and repeat
 
+Initializatoin:
+
+init
+Usage:
+* git init
+  * does the background work to start a git repository in the current directory which has no files currently tracked
+Clone
+* git clone remote_repo_adress
+  * creates a new git repos in the current directory
+* git branch- review branches in repo
+* git branch new_branch_name- create new branch
+* git branch -d name: delete branch
+* git checkout branch_name: change to that branch
+* git checkout commit: move the current state of your copy to a certain commit
+* git add: add stage one or more files, stages for commit
+* git commit -m "message": commit with a message
+* git merge branch_name: merges the named branch into the current branch
+
+How to resolve conflicts:
+* open file with a conflict
+* find the conflict
+  * conflicts are begun with <<<<<<<<< yours:name of file
+  * Differences are separated by =========
+  * Conflicts end with >>>>>>>>> theirs:name of file
+* ....
+Pull and push
+* git pull [remote_repo] [branch_name]: two parameters are optional if the defaults are set
+* git push [rempot_repo]: pushes all the updated branches to their equivalent in the remote repo
+Status
+* git status -b
+  * this gives the status of the files in the repo
+  * the -b flag also provides the name of the current branch
+Non-tracked files
+* files you do not wish to be part of your repo (typically executables or anything built)
+* These files are handled via a file called .gitignore
+* this removes unwanted files from being marked as untracked
+Log
+* gives history of commits
+* particularyly usefule for finding the hash to checkout a particular
+Remote
+* setup remote knowledge of remote repos
+Stash
+* similar to the concept of shelving in other VCS
+Rebase
+* a method for changing how branches are related
+Diff
+* show differences between two states of the repository
+Fetch
+* get the changes but do not integrate
+Reset
+* move the current head
+tag
+* mark git objects
+mv
+* move a files location within repo
+rm
+* stop tracking the changes to a file
+
+Branches:
+* all a branch is, is a pointer that points at a commit.
+* default branch is called master: on initial commit master and HEAD both point there
+* if you add another branch i.e. sorting, it creates a pointer called sorting that points at the same commit
+* if you make a commmit on the branch sorting, sorting ptr points to new commit and that new commit points to original branch
+* HEAD is a pointer on each branch that points to latest commit, on every branch
+
+Rebase(alternative to merge)
+
+-----
+##GitHub Presentatoin
+
+Create a branch
+* git checkout -b "branch name"
+* Anything on the master branch is always deployable to production
+
+Add some commits
+* git commit -m "so many monocles"
+
+Open a pull request
+* send a pull request to add a branch to master
+
+* use @mention
+* use fork/pull model for open sorce repos
+
+Fork
+* a fork is an exact copy of a repository
+* use it to run experiements without screwing anything up
+* Fork vs. clone: clone you can't push back because you don't have colabortator acces, fork creates your own repo copy that you CAN push to.
+
+For vs. Branch
+* don't have collaborator access, fork
+* if you have collaborator access, branch
+
+Once you have a pull request: Discuss and review code
+* remember we are colaborating
+* pull request comments support emojis
+
+Merge and Deploy
+
+You can include keywords to automatically close issues
+
+JavaScipt request implementation
+* slightly simpler than ruby
+* Node: a wrapper around googles javascript engine
   
 
