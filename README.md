@@ -319,5 +319,83 @@ You can include keywords to automatically close issues
 JavaScipt request implementation
 * slightly simpler than ruby
 * Node: a wrapper around googles javascript engine
+
+-----------
+# Lecture 5: 1/27/2015
+## Node.js
+
+Node.js is a server side tool and framework for executing JS. wraps googles  JS engine, V8, and makes those features available.
+* great for writing webservices
+* Most code in node is package inside of a module
+* http is a core module, directly built in, provided by Node.js itself
+* thttp provides a function createServer()
+
+JavaScript supports first class functions
+* functions can be used as variables, parameters, functions that return functions that you can call, etc
+* argument in below example is a function.
+* listen() takes a port number and server for arguments
+```
+http.creatServer(<function>).listen(1337, '127.0.0.1');
+
+```
+* this is an anonymous function passed to createServer()
+* each time server receives a request:
+  * it invokes this function and passes the HTTP request and response objects
+* this particular function ingores all input and generates and HTTP request or response
+
+```
+console.log('Server running at http://127.0.0.1');
+```
+* console.log, like printf()
+
+Event loop:
+* in order to understand Node.js you must understand the event loop
+* event-based programming is a style where the code you write is not in control
+  * you write handlers for events to control the flow
+* Node tries to make it easy to add work to the event que
+* Node also lets you add functions to the event queue for later exec
+  * process.nextTick()
+  * setImmediate()
+  * setTimeout()
+  * setInterval()
+
+```
+console.log('first');
+process.nextTick(function() {
+  console.log("third");
+});
+console.log("second");
+```
+* our main program is simply a function passed to the event loop
+* on the first pass: log(), nextTick(), log()
+* on the second pass: log()
+* since there are no more events, the program ends
+Difference between nextTick() and setImmediate()
+* setImmediate() allows IO-related callbacks to process first
+* nextTick() will prioritize your function before IO-related callbacks, possibly causing IO-starvation
+
+SetTimeout() and setInterval()
+* setTimeout() takes second parameter specifying how long to wait before function executed (in miliseconds)
+* setInterval() take a second parameter specifying how ofter the function should be executed (in miliseconds)
+  * if the interval is never turned off the node will execute forever, look at Node.js documentation on how to stop
+
+Callback Hell
+* callbacks are great for asychronous programming, but...
+* it can lead to callback hell where callbacks get indented over and over
+* two ways to solve this problem:
+  * Use sychronous funtions instead (program blocks while function executes)
+    * wait for the function to finishing before continuing on in the program
+  * used named callback functions
+
+Just Callbacks?
+* are callbacks the only asynchronous things in node?
+  * NO
+
+Node Execution model
+* for user-written code Node is single threaded!
+* any code that you write is guarenteed to by synchronous
+* you do not have to worry about race conditions
+* IO is handled in parallel
+    * define functions at the top of the file and refer to them by name in the callbacks
   
 
