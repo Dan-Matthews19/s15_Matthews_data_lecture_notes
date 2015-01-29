@@ -397,5 +397,16 @@ Node Execution model
 * you do not have to worry about race conditions
 * IO is handled in parallel
     * define functions at the top of the file and refer to them by name in the callbacks
+
+----------
+# Lecture 6, 1/29/15
+## Express
+
+* web application framework written in JS for use in Node.js
+* design influenced by sinatra
+* makes it very easy to define endpoints of web-based service
+* also has features (such as serving static files) that allow you to create a website
+* minimal framework: designed to be augmented by node packages that are then wired in middleware
+Express by example:
   
 
