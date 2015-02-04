@@ -408,5 +408,69 @@ Node Execution model
 * also has features (such as serving static files) that allow you to create a website
 * minimal framework: designed to be augmented by node packages that are then wired in middleware
 Express by example:
-  
+
+---------
+# Lecture 7, 2/3/15
+## Angular JS
+
+* a client-side web app framework written in JS for use in most web browsers
+* proveides an implementation of model-view-controllr in the Web Browser to make it easier to produce modular  web clients
+* these client side apps are designed to live on top of JSON-based RESTful web services
+
+Not the easiest learning curve
+* once we moved beyond simple examples it gets complex fast
+* VERY powerful
+  * you just to learn core concepts and idioms
+  * we will learn ANGULARJS 1.3
+
+Core Concepts
+* Data bindings
+  * the value of an HTML tag can be associated with a model object stored in a controller. When one changes, angular updates the other automatically.
+* Controllers
+  * associated with a portion of your HTML -> define all of the state and methods that can be accessed within that section of the page
+  * you can modularize your web app and decompose data and functionality into small, manageable chunks
+Services
+* if you need to maintain state between invocations of a controller or if you need to share state between two different controllers, you can create a service.
+* services are created when an Angular app is  initialized
+  * they will remain in place for the entire life of the app
+
+Directives
+* uiquitous in angular, allow angular to integrate into HTML in a natural way
+* can also be used to create re-usable components that combine controllers, data, and HTML
+  * you can create a login form component that can be re-used across multiple projects
+
+Embeddable
+* angular can control as much or as little of a web page as you specify
+* easy to embed a small angular component to existing page and then incrementally expand it
+
+Injectable
+* uses dependency injection: injects dependencies without explicitly writing it
+* rather than use main routine, angular declares dependencies up front
+* angular run-time system locates the dependencies and injects into components that need them
+
+Modules
+* primary way to package up a set of controllers into angular app
+* create it by giving it a name and litst dependencies
+
+```
+angular.module('contactsApp' , [])
+```
+* this creates a module called contactsApp, this module has no dependencies ([])
+* once you create module you can gain a handle to it by calling angular.module with no dependencies
+* once module defined in JS, you can tell angular where it lives in html with the ng-app directive
+
+Controllers
+* to actually do someting, need controller
+* a simple controller may have no dependencies
+* more complex controllers will declare dependencies
+
+Why do we do this?
+```
+var self = this;
+```
+* closures!
+* note that we reference self.message in the function changeMessage()
+* if we had said this.message in changeMessage() there is a chance that it no longer refers to a controller.
+
+
 
