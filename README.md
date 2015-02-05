@@ -472,5 +472,60 @@ var self = this;
 * note that we reference self.message in the function changeMessage()
 * if we had said this.message in changeMessage() there is a chance that it no longer refers to a controller.
 
+---------
+
+# Lecture 8, 2/5/2015
+## More complicated Angular example
+
+Include all your JS reference at the bottom of the body tag in HTML file, usually all URLs, files, or downloaded packages
+
+```
+<script src="js/jquery-1.11.2.min.js"></script>
+```
+
+Must link css for specific styles: ex. Bootstrap
+
+```
+<link href="css/bootstrap.css" rel="stylesheet">
+```
+User's route
+```
+}).when('/users' , {
+  templateURL: 'views/users.html',
+  controller: 'UsersController as ctrl',
+  resolve:{
+    verifu: ['UserService , function(UserService) {
+      if(UserService.user.admin === false) {
+        throw "Not authorized";
+      }
+      return true;
+      }],
+      user: ['UserService', function(UsersService) {
+        reutrn UserService.refresh(); // refresh() allows you to return a promise, allows for asynchronous calls
+      }]
+    }
+```
+refresh function
+```
+refresh: function() {
+  service.users.length = 0;
+  var deferred = $q.defer(); // returns promise
+  $http.get("/api/1.0/users").then(function (response) {
+    Array.prototype.push.apply(
+      service.users,
+      response.data.users);
+    deferred.resolve(response.data.users);
+  }, function(error) {
+    deferred.reject();
+  });
+  return deferred.promise
+}
+```
+
+So far:
+* web services
+* put something on client side that allows us to build website
+* carefully controlled interactions with server such as loggin info
+
 
 
