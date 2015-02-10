@@ -527,5 +527,37 @@ So far:
 * put something on client side that allows us to build website
 * carefully controlled interactions with server such as loggin info
 
+---------
+#Lecture 9, 2/10/2015
+## Getting Data from Twitter
 
+Two helpful books:
+* principles of object-oriented javsscript
+* secrets of the javasscript ninja
+
+Contacts web_app
+* link on github to contacts web_api
+
+RequireJS:
+* RequireJS implements the AMD (Asynchronous Module Definition) spec, which means we can write our own modules and load them with RequireJS, allowing it to manage dependencies for us.
+*  Have you ever had multiple script tags and had to load them in a particular order as one relied on the other? I have, and it's a nightmare. Working in a modular fashion really eliminates this issue and in this tutorial I hope to demonstrate just how.
+*  controllers.js: define is the requirejs, all the middle code is angular
+
+Applied to the web abb:
+* each controller is in its own file and all stored in their own seperate module
+* I combined my two services into one service
+* ...
+
+IIFES
+* the code in the new app now follows a common convention in JS known as the module pattern
+* this is also known as the immediately invoked function expression (IIFE).
+
+Getting Data From Twitter part 1:
+* first thing we need to do is to create an account on Twitter
+  * created data_at_cu for this class
+* Make sure and set up account before thursday
+* Next head to https://dev.twitter.com (site for twitter developers)
+  * Scroll to the bottom and click on manage your apps
+  * loggin --> create new app
+Created Twitter app on dama8893_dev account
 
