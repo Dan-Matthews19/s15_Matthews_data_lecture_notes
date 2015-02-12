@@ -561,3 +561,14 @@ Getting Data From Twitter part 1:
   * loggin --> create new app
 Created Twitter app on dama8893_dev account
 
+-------
+#Lecture 10 Getting Data from twitter take two
+## 2/12/15
+
+Showed up a little bit late so fell behind in the demo. Follow lecture 10 slides to get back up to speed.
+Download:
+* ruby
+* gem
+* recomended: rbenv
+
+Laptop dying. Will pick up next lecture
