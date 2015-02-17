@@ -572,3 +572,96 @@ Download:
 * recomended: rbenv
 
 Laptop dying. Will pick up next lecture
+
+-----------
+
+#Lecture 11 Twitter Data Collection Framework
+## 2/17/15
+
+This framework will allows to access the search API, shows two implementations of accessing the streaming API
+
+Twitter framework now available on the class GitHub
+* examples of implementations of five REST API endpints and two streaming endpoints
+* automatically handles twitter rate limits
+* provides implemenations for working with timelines and working with cursors
+* In lecture 10 we reviewed the code that was needed to make a single GET request on a single REST API
+
+High-level view of framework
+* apps --> requests --> core --> helpers
+
+Twitter request
+* standardized constructor
+* expects an args hash with up to three entries
+* sets the contract required by all sub-classes
+
+Contract?
+* In a statically typed language like Java, we would use interface
+* in a dynamically typed language like ruby, we improvise
+```
+def url
+  raise NotImplementedError, "no URL Specified for the Request"
+end
+```
+
+* A twitter request has a public collect method that yeilds collected data back to its caller
+
+Helpers:
+* Params and Props
+* Logging and Rates
+
+Params and Props:
+* Only two new features
+  * the ability to control if a parameter is included in a request
+  * the ability to display the parameters that are being sent with a request
+
+Logging
+* the logging helper consists of a custom class definition and a method to create a default logger
+
+Ruby logger:
+```
+require 'logger'
+```
+* the logger is createer in TwitterRequest's constructor
+```
+@log = args[:log] || default_logger
+```
+Rates
+* rates helper allows the framework to automatically keep track of rate limits for a given Twitter endpoint
+* the default make_request ensures that the rates are checked on each request
+* user auth request rate = 180 request / 15 minutes (one request can recieve about 200 tweets)
+* the rates helper invokes a Twitter endpoint to get the applications current set of rate limits
+* these rates are stored in a class variable (static) (@@var_name in ruby) so they are shared across all TwitterRequests instances created by an app
+* these global rates are only refreshed when needed
+
+Types of Requests:
+* framework has the following sub-classes:
+* max-idRequest:
+  * A subclass for endpoints that need to traverse timelines with the max_id parameter
+```
+params[:max_id] = (tweets[-1]['id'] -1) if tweets.size > 0
+```
+  * Timeline and Search make use of this sub-class maxIdRequest
+
+Example of a search endpoint:
+```
+def twitter_enpoint
+  "/search/tweets"
+```
+CursorRequest:
+* does not need to define a contract for subclasses
+* it can implement all of the required functionallity directly
+```
+params[:cursor] = -1
+```
+StreamingTwitterRequest:
+* collect method is designed to run forever (while(true))
+* we use Typheous to create a request and then define a series of event handlers on the request
+* handlers get called when appropriate as data streams in
+  * on_headers: lets us check to see if we successfully established connection
+  * on_body: some data has been revieced from server; we need to process it
+  * on_complete: the response has finished; clean up before quit
+* The client can also request a shutdown: call request_shutdown
+* on_body uses a lower level buffer to collect data from the server until it is full and then sends it to process method
+* there is no guarentee that the data from the buffer actually ends directly on a message boundary
+
+Now showing the twitter framework code
