@@ -665,3 +665,118 @@ StreamingTwitterRequest:
 * there is no guarentee that the data from the buffer actually ends directly on a message boundary
 
 Now showing the twitter framework code
+
+------
+#Lecture 12 Introduction to NoSQL
+##2/19/15
+
+Two Useful books:
+* Big Data: Principles and best practices of scalable realtime data systems, by Nathan Marz and James Warren
+* Making Sense of NoSQL: A guide for managers and the rest of us, by Dan McCreary and Annn Kelly
+
+Scaling with Traditional Databases:
+
+Web Analytics Application
+* You have a system that will keep track of page views for a number of websites
+* when someone loads a page on your client's website it pings your service and you increment the count associated with that URL
+* Get lots of customers and lots of pings
+* Get error: your system is timing out on the ping request
+* so many requests coming in at once: relational data base cannot mutate rows fast enough (i.e. writes)
+* spending so much time on writes, it can't keep up with the read request
+
+Instead:
+* let aton of request come in, then batch updates to the database, asking it to update multiple rows with each request
+* Add a queue between your web server and the code that will update the database
+* attach a single worker to the queue that reads 1000 updates off the queue and then inserts them all into database at once
+
+Not a true solution:
+* too much data even for worker to handle --> request to mutate rows time out system
+* could try to add more workers to the queue but it won't work, because there is still only one database
+* the database is a BOTTLENECK
+* What is the answer to this problem in relational world?
+  * Vertical scaling: will temporarily relieve the pressure and eventually will fail
+* Answer: SHARD the database
+  * this means that you need multiple copies of the database ( each with own file system )
+  * You then partition your data across these databases
+  * develop a partitioning strategy
+    * often, you will take an MD5 hash of some aspect of the input data and then mod that value by the number of shards
+    * then write data to indicated shard
+    * do the same thing for reads to locate data needed to fulfill request
+
+Problems:
+* if more or less shards created, application (SE) has to manage that including shutting down system to re-SHARD
+* if one machine goes down, the entire system goes down
+* Fault tollerance is hard
+* complexity is pushed to the application layer, application must manage all theses issues
+* the lack of human-fault tollerance: Nothing preventing user error to losing data
+* Maintenance is an enormous amount of work
+
+NoSQL to the rescue!
+* NoSQL databases are ones which are aware of their distributed nature
+  * mangage sharding and replication for you
+  * horizontally scalable
+      * if you need more diskspace add a server
+      * need faster computaion, add a server
+      * when you add a sever, NoSQL will reshard for you automatically!
+* tend to avoid mutable data
+  * once data is written, it is immutable and can't be updated
+  * if the value changes you write new immutable copy of the updated data and...
+  * when you read that value you adopt a strategy of returning the most recently written value
+* NoSQL databases are fault tollerant
+* this means that all these issues are handled in the database, not at application level
+* all of these things happen in the persistence tier
+
+Types of NoSQL
+* key-value
+* graphs
+* columnar
+* documents
+
+Key-Value:
+* simple database when presented with a string (key), returns an arbitrarily large set of data (value)
+* kaey value stores have no quesry language. They act just like hash tables
+* values are untyped
+* simple!
+* examples: Amazon SimpleDB, S3, Redis, Voldemort, Riak
+
+Graph Stores:
+* databases optimized to store graph structures rather than table/row/column structures
+* provide structural query languages so you can locate information based on the structure of your data
+* Example: find all pairs of Person nodes who have atleast 3 children together, live in Colorado, and have been married for more then 15 years
+* Provide ability to do graph traversals efficiently
+* provide ability to calculate shortest paths between two given nodes
+* examples: Neo4j, Titan, Infinite Graph, Info Grid
+
+Columnar Stores:
+* also know as column family stores
+* able to scale to enormous amounts of data
+* often able to achieve very fast writes (miliseconds) while also maintaining reasonable read performance
+  * Consider: Netflix uses Casandra to store and serve its movies
+  * In this case, what you are reading from the database is an entire movie that is then streamed across the internet
+* Basic Data model:
+  * column family: think of this as a table of related data
+  * column families consist of rows that have unique row keys
+  * rows consist of columns (potentially millions)
+  * columns consist of key and value 
+  * value itself might be a JSON map that in turn has keys and values
+* Hash tables all the way down
+* More acurately: a distributed hash table which is easy to partition across the nodes of a cluster
+* Examples: Hbase, Casandra
+
+Document Stores:
+* insert documents (a bag of key-value pairs)
+* each doc gets indexed in a variety of ways
+* Documents can then be found via queries on any attribute
+* documents can be grouped into collections, can be grouped into databases
+* each database is then used by a particular application to get its work done
+* Examples: MongoDB, CouchDB, Solr/Lucene
+
+Why NoSQL?
+* implicit in what we have been saying is that there is no schema
+  * there is nothing that says: in column 5 of table 2, you will find and INT;
+* You are often free to store ANYTHING in one of these databases
+* Examples
+  * Document stores: each doc in a collection can have a different set of key-value pairs
+  * Columnar stores: each row in a columnar store can have different columns
+  * a graph database is just a colleciton of nodes and edges. You can add any amount of metadata to each concept to suit your needs.
+
