@@ -780,3 +780,32 @@ Why NoSQL?
   * Columnar stores: each row in a columnar store can have different columns
   * a graph database is just a colleciton of nodes and edges. You can add any amount of metadata to each concept to suit your needs.
 
+-------
+#Lecture 13, CouchDB
+##2/24/15
+
+CouchDB: The Definitive Guide
+
+Document Database:
+* implemented in Erlang, a language seen alot in telecommunications
+* CouchDB's design embraces the web
+  * RESTful API
+  * Built for Distribution
+  * High availability by trading consistency for eventual consistency
+  * Document database: self-contained data
+  * each document contains everything that might be needed by an applicaiton, that makes use of it
+  * No schema is enforced!! each doc can have a different set of attributes
+    * allows for natural modeling of domains
+    * Attributes can contian embeded documents
+
+CAP Theorem
+* when designing a distributed data source, there are issues you must confront as soon as your system has more then one server:
+  * Consistency: all clients see the same data even in the presence of concurrent updates
+  * Availability: All clients are able to read or write the data stored when they want
+  * Partition Tolerance: A database can be split across multiple servers
+* The CAP theorem says: PICK ANY TWO
+* Picking two of the characteristics for your system provides very different capabilities
+  * Consistency and Availability: What relational databases provide; they have low partition tolerance
+  * Availability and Partition Tolerance: Provides the ability to scale horizontally and always be available for requests but can only guarentee eventual consistency
+  * Consistency and Partiton tolerance: You can provide consistency, at the price of not always being available for client requests
+* CouchDB (and many NoSQL systems) choose Availability and Partition Tolerance as their two.
